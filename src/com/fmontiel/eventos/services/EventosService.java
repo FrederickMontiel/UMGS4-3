@@ -19,7 +19,7 @@ import java.util.List;
 
 public class EventosService {
 
-    private static final String BASE_URL = "http://localhost:8080/api";
+    private static final String BASE_URL = "https://rocky-island-06241-a53a9407b1c6.herokuapp.com/api";
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public List<EventoModel> getAllEventos() throws IOException {

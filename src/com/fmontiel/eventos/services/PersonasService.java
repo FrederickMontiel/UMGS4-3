@@ -21,7 +21,7 @@ import java.util.List;
 
 public class PersonasService {
 
-    private static final String BASE_URL = "http://localhost:8080/api";
+    private static final String BASE_URL = "https://rocky-island-06241-a53a9407b1c6.herokuapp.com/api";
 
     public PersonaModel addPersonaToEvento(Long eventoId, Long cui, String nombre, String email, String telefono) throws IOException {
         JSONObject personaData = new JSONObject();

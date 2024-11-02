@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class UsuariosService {
 
-    private static final String BASE_URL = "http://localhost:8080/api";
+    private static final String BASE_URL = "https://rocky-island-06241-a53a9407b1c6.herokuapp.com/api";
 
     public UsuarioModel login(String email, String password) throws IOException {
         JSONObject loginData = new JSONObject();
