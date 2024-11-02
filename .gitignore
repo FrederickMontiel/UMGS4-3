@@ -1,0 +1,39 @@
+# Ignorar archivos de NetBeans
+nbproject/private/
+nbproject/Makefile-*
+nbproject/configs/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+nbactions.xml
+nb-configuration.xml
+
+# Ignorar archivos generados por compilación
+build/
+*.class
+
+# Ignorar archivos generados por el sistema operativo
+.DS_Store
+Thumbs.db
+
+# Ignorar archivos de Maven (si aplicable)
+target/
+
+# Ignorar archivos de log y temporales
+*.log
+*.tmp
+
+# Ignorar archivos específicos de Windows
+*.bat
+
+# Ignorar archivos específicos de Linux/macOS
+*.sh
+
+# Ignorar archivos de configuraciones locales
+*.iml
+*.ipr
+*.iws
+
+# Ignorar archivos de configuración del IDE
+.idea/

@@ -1,0 +1,343 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package com.fmontiel.eventos.views.indexview;
+
+import com.fmontiel.eventos.models.EventoModel;
+import com.fmontiel.eventos.services.EventosService;
+import com.fmontiel.eventos.interfaces.CallbackInterface;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import org.json.JSONObject;
+
+public class Formulario extends javax.swing.JFrame {
+    
+    Long id;
+
+    private CallbackInterface onFinish;
+    private Formulario.Modos modo;
+    private EventosService eventosService;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public static enum Modos {
+        AGREGAR,
+        EDITAR
+    }
+
+    public Formulario(
+            Formulario.Modos modo,
+            Long id,
+            String nombre,
+            String descripcion,
+            String organizador,
+            String ubicacion,
+            int dia,
+            int mes,
+            int anio,
+            CallbackInterface onFinish) {
+        
+        this.modo = modo;
+        this.onFinish = onFinish;
+        this.eventosService = new EventosService();
+
+        initComponents();
+      
+
+        if (modo == Formulario.Modos.EDITAR) {
+            this.id = id;
+            textFieldNombre.setText(nombre);
+            textFieldDescripcion.setText(descripcion);
+            textFieldOrganizador.setText(organizador);
+            textFieldUbicacion.setText(ubicacion);
+            textFieldDia.setText(String.valueOf(dia));
+            textFieldMes.setText(String.valueOf(mes));
+            textFieldAnio.setText(String.valueOf(anio));
+
+            btnAccion.setText("Editar");
+        }
+    }
+
+    private Date parseFechaEvento() throws ParseException {
+        String fechaStr = String.format("%d-%02d-%02d",
+                Integer.parseInt(textFieldAnio.getText()),
+                Integer.parseInt(textFieldMes.getText()),
+                Integer.parseInt(textFieldDia.getText()));
+        return dateFormat.parse(fechaStr);
+    }
+
+    public void addEvento() {
+        try {
+            Date fechaEvento = parseFechaEvento();
+            String nombre = textFieldNombre.getText();
+            String ubicacion = textFieldUbicacion.getText();
+            String descripcion = textFieldDescripcion.getText();
+            String organizador = textFieldOrganizador.getText();
+
+            EventoModel nuevoEvento = eventosService.createEvento(nombre, ubicacion, descripcion, organizador, fechaEvento);
+
+            JOptionPane.showMessageDialog(this, "Evento creado exitosamente: " + nuevoEvento.getNombre());
+
+            // Limpiar campos después de agregar
+            textFieldNombre.setText("");
+            textFieldDescripcion.setText("");
+            textFieldOrganizador.setText("");
+            textFieldUbicacion.setText("");
+            textFieldDia.setText("");
+            textFieldMes.setText("");
+            textFieldAnio.setText("");
+
+            onFinish.call(new JSONObject());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con el servidor: " + e.getMessage());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Verifique los valores de día, mes y año.");
+        }
+    }
+
+    private void btnRealizaraccion(java.awt.event.ActionEvent evt) {
+        if (Formulario.Modos.AGREGAR == modo) {
+            addEvento();
+        } else if (Formulario.Modos.EDITAR == modo) {
+            editarEvento();
+        }
+    }
+
+    public void editarEvento() {
+        try {
+            Date fechaEvento = parseFechaEvento();
+            String nombre = textFieldNombre.getText();
+            String ubicacion = textFieldUbicacion.getText();
+            String descripcion = textFieldDescripcion.getText();
+            String organizador = textFieldOrganizador.getText();
+            Long id = this.id;
+
+            EventoModel eventoActualizado = eventosService.updateEvento(id, nombre, ubicacion, descripcion, organizador, fechaEvento);
+
+            JOptionPane.showMessageDialog(this, "Evento actualizado exitosamente: " + eventoActualizado.getNombre());
+            onFinish.call(new JSONObject());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al conectar con el servidor: " + e.getMessage());
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Verifique los valores de día, mes y año.");
+        }
+    }
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        textFieldDescripcion = new javax.swing.JTextField();
+        btnAccion = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        textFieldNombre = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        textFieldOrganizador = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        textFieldUbicacion = new javax.swing.JTextField();
+        textFieldDia = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        textFieldMes = new javax.swing.JTextField();
+        textFieldAnio = new javax.swing.JTextField();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Eventos");
+
+        btnAccion.setText("Agregar");
+        btnAccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRealizaraccion(evt);
+            }
+        });
+
+        jLabel2.setText("Descripción");
+
+        jLabel3.setText("Nombre");
+
+        jLabel4.setText("Nombre Organizador");
+
+        jLabel5.setText("Ubicación");
+
+        textFieldDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldDiaActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Fecha");
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Año");
+
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel8.setText("Día");
+
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Més");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(textFieldDescripcion)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addComponent(textFieldNombre)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addComponent(textFieldOrganizador)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addComponent(textFieldUbicacion)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldMes, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textFieldAnio, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textFieldDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textFieldOrganizador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textFieldUbicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addGap(2, 2, 2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnAccion, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void textFieldDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldDiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldDiaActionPerformed
+
+
+    /**
+     * @param args the command line arguments
+     */
+    /*
+     * public static void main(String args[]) {
+     * 
+     * 
+     * try {
+     * for (javax.swing.UIManager.LookAndFeelInfo info :
+     * javax.swing.UIManager.getInstalledLookAndFeels()) {
+     * if ("Nimbus".equals(info.getName())) {
+     * javax.swing.UIManager.setLookAndFeel(info.getClassName());
+     * break;
+     * }
+     * }
+     * } catch (ClassNotFoundException ex) {
+     * java.util.logging.Logger.getLogger(Formulario.class.getName()).log(java.util.
+     * logging.Level.SEVERE, null, ex);
+     * } catch (InstantiationException ex) {
+     * java.util.logging.Logger.getLogger(Formulario.class.getName()).log(java.util.
+     * logging.Level.SEVERE, null, ex);
+     * } catch (IllegalAccessException ex) {
+     * java.util.logging.Logger.getLogger(Formulario.class.getName()).log(java.util.
+     * logging.Level.SEVERE, null, ex);
+     * } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+     * java.util.logging.Logger.getLogger(Formulario.class.getName()).log(java.util.
+     * logging.Level.SEVERE, null, ex);
+     * }
+     * //</editor-fold>
+     * 
+     * 
+     * java.awt.EventQueue.invokeLater(new Runnable() {
+     * public void run() {
+     * new Formulario().setVisible(true);
+     * }
+     * });
+     * }
+     */
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAccion;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField textFieldAnio;
+    private javax.swing.JTextField textFieldDescripcion;
+    private javax.swing.JTextField textFieldDia;
+    private javax.swing.JTextField textFieldMes;
+    private javax.swing.JTextField textFieldNombre;
+    private javax.swing.JTextField textFieldOrganizador;
+    private javax.swing.JTextField textFieldUbicacion;
+    // End of variables declaration//GEN-END:variables
+}
